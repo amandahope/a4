@@ -20,13 +20,11 @@
                 <tr>
                     <td>{{ $task->task }}</td>
                     <td>
-                        <td>
-                            @if (is_null($task->completed_date))
-                                {{ $task->completed_date }}
-                            @else
-                                {{ Carbon\Carbon::parse($task->completed_date)->toFormattedDateString() }}
-                            @endif
-                        </td>
+                        @if (is_null($task->completed_date))
+                            {{ $task->completed_date }}
+                        @else
+                            {{ Carbon\Carbon::parse($task->completed_date)->toFormattedDateString() }}
+                        @endif
                     </td>
                     <td>{{ $task->person }}</td>
                     <td>
