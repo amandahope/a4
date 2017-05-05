@@ -43,13 +43,3 @@
 
 
 @endsection
-
-@section('datepicker')
-
-    <script>
-        $( function() {
-          $( "#due_date" ).datepicker();
-        } );
-    </script>
-
-@endsection

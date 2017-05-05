@@ -13,7 +13,7 @@ class Member extends Model
 
     public static function getMembersForCheckboxes() {
 
-        $members = Member::orderBy('last_name', 'ASC')->get();
+        $members = Member::where('role', '=', 'member')->orderBy('last_name', 'ASC')->get();
 
         $membersForCheckboxes = [];
 
