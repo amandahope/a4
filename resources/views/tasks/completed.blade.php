@@ -26,15 +26,21 @@
                             {{ Carbon\Carbon::parse($task->completed_date)->toFormattedDateString() }}
                         @endif
                     </td>
-                    <td>{{ $task->person }}</td>
+                    <td>
+                        <ul>
+                            @foreach ($task->members as $member)
+                                <li>{{ $member->first_name }} {{ $member->last_name }}</li>
+                            @endforeach
+                        </ul>
+                    </td>
                     <td>
                         <form method="POST" action="/incomplete">
                             {{ csrf_field() }}
                             <input type="hidden" name="id" value="{{ $task->id }}">
                             <button class="btn btn-default" type="submit">Mark Incomplete</button>
+                            <a class="btn btn-default" href="/edit/{{ $task->id }}">Edit</a>
+                            <a class="btn btn-default" href="/delete/{{ $task->id }}">Delete</a>
                         </form>
-                        <a class="btn btn-default" href="/edit/{{ $task->id }}">Edit</a>
-                        <a class="btn btn-default" href="/delete/{{ $task->id }}">Delete</a>
                     </td>
                 </tr>
             @endforeach

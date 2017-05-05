@@ -14,18 +14,22 @@
 
 <body>
 
-    <header>
-        <h1>Delegate It!</h1>
-        <h2>Task Management for Teams</h2>
-    </header>
+    <div class="container-fluid">
 
-    @if(Session::get('message') != null)
-        <div class="bg-success">{{ Session::get('message') }}</div>
-    @endif
+        <header>
+            <h1>Delegate It!</h1>
+            <h2>Task Management for Teams</h2>
+        </header>
 
-    @yield('content')
+        @if(Session::get('message') != null)
+            <div class="alert alert-warning">{{ Session::get('message') }}</div>
+        @endif
 
-    @yield('datepicker')
+        @yield('content')
+
+        @yield('datepicker')
+
+    </div>
 
 </body>
 </html>

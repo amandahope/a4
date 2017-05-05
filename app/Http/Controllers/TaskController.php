@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Task;
+use App\Member;
 use Session;
 use Carbon;
 
@@ -14,7 +15,8 @@ class TaskController extends Controller
     */
 
     public function index() {
-        $currentTasks = Task::where('completed', '=', false)->orderBy('due_date')->get();
+        $currentTasks = Task::where('completed', '=', false)->
+            orderBy('due_date')->get();
 
         return view('tasks.index')->with([
             'currentTasks' => $currentTasks
@@ -27,8 +29,12 @@ class TaskController extends Controller
     */
 
     public function completed() {
-        $completedTasks = Task::where('completed', '=', true)->orderBy('completed_date', 'desc')->get();
-        return view('tasks.completed')->with(['completedTasks' => $completedTasks]);
+        $completedTasks = Task::where('completed', '=', true)->
+            orderBy('completed_date', 'desc')->get();
+
+        return view('tasks.completed')->with([
+            'completedTasks' => $completedTasks
+        ]);
     }
 
     /**
@@ -37,7 +43,12 @@ class TaskController extends Controller
     */
 
     public function new() {
-        return view('tasks.new');
+
+        $membersForCheckboxes = Member::getMembersForCheckboxes();
+
+        return view('tasks.new')->with([
+            'membersForCheckboxes' => $membersForCheckboxes
+        ]);
     }
 
     /**
@@ -54,9 +65,18 @@ class TaskController extends Controller
 
         $task = new Task();
         $task->task = $request->task;
-        $task->due_date = Carbon\Carbon::parse($request->due_date)->toDateString();
-        $task->person = $request->person;
+
+        if(is_null($request->due_date)) {
+            $task->due_date = null;
+        } else {
+            $task->due_date = Carbon\Carbon::parse($request->due_date)->toDateString();
+        }
+
         $task->completed = false;
+        $task->save();
+
+        $members = ($request->members) ?: [];
+        $task->members()->sync($members);
         $task->save();
 
         Session::flash('message', 'The task "'.$task->task.'" has been added.');
@@ -71,16 +91,25 @@ class TaskController extends Controller
 
     public function edit($id) {
 
-        $task = Task::find($id);
+        $task = Task::with('members')->find($id);
 
         if(is_null($task)) {
             Session::flash('message', 'Task does not exist!');
             return redirect('/');
         }
 
+        $membersForCheckboxes = Member::getMembersForCheckboxes();
+
+        $membersForThisTask = [];
+        foreach ($task->members as $member) {
+            $membersForThisTask[] = $member->first_name.' '.$member->last_name;
+        }
+
         return view('tasks.edit')->with([
             'id' => $id,
-            'task' => $task
+            'task' => $task,
+            'membersForCheckboxes' => $membersForCheckboxes,
+            'membersForThisTask' => $membersForThisTask,
         ]);
     }
 
@@ -105,7 +134,9 @@ class TaskController extends Controller
             $task->due_date = Carbon\Carbon::parse($request->due_date)->toDateString();
         }
 
-        $task->person = $request->person;
+        $members = ($request->members) ?: [];
+        $task->members()->sync($members);
+
         $task->save();
 
         Session::flash('message', 'The task "'.$task->task.'" has been updated.');
@@ -141,6 +172,9 @@ class TaskController extends Controller
     public function saveDelete(Request $request) {
 
         $task = Task::find($request->id);
+
+        $task->members()->detach();
+
         $task->delete();
 
         Session::flash('message', 'The task "'.$task->task.'" has been deleted.');

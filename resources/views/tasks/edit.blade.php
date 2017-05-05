@@ -21,8 +21,10 @@
         </div>
 
         <div class="form-group">
-            <label for="person">Delegate</label>
-            <input type="text" name="person" id="person" value=" {{ old('person', $task->person) }}">
+            <label for="members">Delegate</label>
+            @foreach($membersForCheckboxes as $id => $name)
+                <input type="checkbox" name="members[]" id="members" value="{{ $id }}" {{ (in_array($name, $membersForThisTask)) ? 'CHECKED' : '' }}> {{ $name }}
+            @endforeach
         </div>
 
         <input type="submit" value="Update Task">

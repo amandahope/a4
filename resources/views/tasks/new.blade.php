@@ -20,7 +20,9 @@
 
         <div class="form-group">
             <label for="person">Delegate</label>
-            <input type="text" name="person" id="person" value=" {{ old('person') }}">
+            @foreach($membersForCheckboxes as $id => $name)
+                <input type="checkbox" name="members[]" id="members" value="{{ $id }}"> {{ $name }}
+            @endforeach
         </div>
 
         <input type="submit" value="Add Task">

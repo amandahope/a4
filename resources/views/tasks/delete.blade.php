@@ -18,7 +18,13 @@
                 <tr>
                     <td>{{ $task->task }}</td>
                     <td>{{ $task->due_date }}</td>
-                    <td>{{ $task->person }}</td>
+                    <td>
+                        <ul>
+                            @foreach ($task->members as $member)
+                                <li>{{ $member->first_name }} {{ $member->last_name }}</li>
+                            @endforeach
+                        </ul>
+                    </td>
                 </tr>
         </tbody>
 
