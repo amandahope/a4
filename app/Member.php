@@ -13,12 +13,14 @@ class Member extends Model
 
     public static function getMembersForCheckboxes() {
 
-        $members = Member::where('role', '=', 'member')->orderBy('last_name', 'ASC')->get();
+        $members = Member::with('tasks')->where('role', '=', 'member')->
+            orderBy('last_name', 'ASC')->get();
 
         $membersForCheckboxes = [];
 
         foreach ($members as $member) {
-            $membersForCheckboxes[$member['id']] = $member->first_name.' '.$member->last_name;
+            $count = $member->tasks->where('completed', false)->count();
+            $membersForCheckboxes[$member['id']] = $member->first_name.' '.$member->last_name.' ('.$count.')';
         }
 
         return $membersForCheckboxes;

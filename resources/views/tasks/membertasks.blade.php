@@ -20,11 +20,21 @@
 
         <tbody>
             @foreach ($memberTasks as $task)
-                <tr>
+                <tr
+                    @if (!is_null($task->due_date))
+                        @if (Carbon\Carbon::now()->gt(Carbon\Carbon::parse($task->due_date)))
+                            class="bg-danger"
+                        @endif
+                    @endif
+                >
                     <td>{{ $task->task }}</td>
                     <td>
                         @if (!is_null($task->due_date))
                             {{ Carbon\Carbon::parse($task->due_date)->toFormattedDateString() }}
+                            @if (Carbon\Carbon::now()->gt(Carbon\Carbon::parse($task->due_date)))
+                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                <span class="sr-only">Alert:Overdue</span>
+                            @endif
                         @endif
                     </td>
                     <td>
