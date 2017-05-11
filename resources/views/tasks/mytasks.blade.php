@@ -3,8 +3,8 @@
 @section('content')
 
     <div class="page-header">
-        <h2>Current Tasks
-            <small><a href="/completed">(Show Completed)</a></small>
+        <h2>My Current Tasks
+            <small><a href="mytasks/completed">(Show Completed)</a></small>
         </h2>
     </div>
 
@@ -14,35 +14,18 @@
             <tr>
                 <th>Task</th>
                 <th>Date Due</th>
-                <th>Delegated To</th>
                 <th>Options</th>
             </tr>
         </thead>
 
         <tbody>
-            @foreach ($currentTasks as $task)
+            @foreach ($myTasks as $task)
                 <tr>
-                    <td>
-                        {{ $task->task }}
-
-                        @if(Session::get('new') == $task->task)
-                            <span class="label label-success">New</span>
-                        @endif
-                        @if (Session::get('updated') == $task->task)
-                            <span class="label label-success">Updated</span>
-                        @endif
-                    </td>
+                    <td>{{ $task->task }}</td>
                     <td>
                         @if (!is_null($task->due_date))
                             {{ Carbon\Carbon::parse($task->due_date)->toFormattedDateString() }}
                         @endif
-                    </td>
-                    <td>
-                        <ul class="list-unstyled">
-                            @foreach ($task->members as $member)
-                                <li>{{ $member->first_name }} {{ $member->last_name }}</li>
-                            @endforeach
-                        </ul>
                     </td>
                     <td>
                         <form method="POST" action="/complete">

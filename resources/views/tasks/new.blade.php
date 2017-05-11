@@ -2,30 +2,37 @@
 
 @section('content')
 
-    <h3>Add a New Task</h3>
+    <h2>Add a New Task</h2>
 
     <form method="POST" action="/new">
 
         {{ csrf_field() }}
 
         <div class="form-group">
-            <label for="task">Task*</label>
-            <input type="text" name="task" id="task" value="{{ old('task') }}">
+            <label for="task">Task (required):</label>
+            <input type="text" name="task" id="task" class="form-control" value="{{ old('task') }}">
         </div>
 
         <div class="form-group">
-            <label for="due_date">Date Due</label>
-            <input type="text" name="due_date" id="due_date" value=" {{ old('due_date') }}">
+            <label for="due_date">Due Date:</label>
+            <input type="text" name="due_date" id="due_date" class="form-control" value=" {{ old('due_date') }}">
         </div>
 
         <div class="form-group">
-            <label for="person">Delegate</label>
-            @foreach($membersForCheckboxes as $id => $name)
-                <input type="checkbox" name="members[]" id="members" value="{{ $id }}"> {{ $name }}
-            @endforeach
+            <fieldset>
+                <legend>Delegate To:</legend>
+                @foreach($membersForCheckboxes as $id => $name)
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="members[]" id="members" value="{{ $id }}">
+                            {{ $name }}
+                        </label>
+                    </div>
+                @endforeach
+            </fieldset>
         </div>
 
-        <input type="submit" value="Add Task">
+        <button class="btn btn-default" type="submit">Add Task</button>
 
     </form>
 

@@ -18,8 +18,11 @@ class TaskController extends Controller
         $currentTasks = Task::where('completed', '=', false)->
             orderBy('due_date')->get();
 
+        $active = "index";
+
         return view('tasks.index')->with([
-            'currentTasks' => $currentTasks
+            'currentTasks' => $currentTasks,
+            'active' => $active
         ]);
     }
 
@@ -28,12 +31,105 @@ class TaskController extends Controller
     * Displays all completed tasks
     */
 
-    public function completed() {
+    public function showCompleted() {
         $completedTasks = Task::where('completed', '=', true)->
             orderBy('completed_date', 'desc')->get();
 
+        $active = "index";
+
         return view('tasks.completed')->with([
-            'completedTasks' => $completedTasks
+            'completedTasks' => $completedTasks,
+            'active' => $active
+        ]);
+    }
+
+    /**
+    * GET /mytasks
+    * Displays all non-delegated current tasks
+    */
+
+    public function showMyTasks() {
+        $tasks = Task::with('members')->where('completed', '=', false)->
+            orderBy('due_date')->get();
+
+        $myTasks = [];
+
+        foreach ($tasks as $task) {
+            if (empty($task->members->all())) {
+                $myTasks[] = $task;
+            }
+        }
+
+        $active = "my";
+
+        return view('tasks.mytasks')->with([
+            'myTasks' => $myTasks,
+            'active' => $active
+        ]);
+    }
+
+    /**
+    * GET /mytasks/completed
+    * Displays all non-delegated completed tasks
+    */
+
+    public function showMyCompleted() {
+        $tasks = Task::with('members')->where('completed', '=', true)->
+            orderBy('completed_date', 'desc')->get();
+
+        $myTasks = [];
+
+        foreach ($tasks as $task) {
+            if (empty($task->members->all())) {
+                $myTasks[] = $task;
+            }
+        }
+
+        $active = "my";
+
+        return view('tasks.mycompletedtasks')->with([
+            'myTasks' => $myTasks,
+            'active' => $active
+        ]);
+    }
+
+    /**
+    * GET /{memberid}
+    * Displays all current tasks for a team member
+    */
+
+    public function showMemberTasks($memberId) {
+        $member = Member::with('tasks')->find($memberId);
+
+        $memberTasks = $member->tasks->where('completed', false)->
+            sortBy('due_date')->all();
+
+        $active = "team";
+
+        return view('tasks.membertasks')->with([
+            'member' => $member,
+            'memberTasks' => $memberTasks,
+            'active' => $active
+        ]);
+    }
+
+    /**
+    * GET /{memberid}/completed
+    * Displays all completed tasks for a team member
+    */
+
+    public function showMemberCompleted($memberId) {
+        $member = Member::with('tasks')->find($memberId);
+
+        $memberTasks = $member->tasks->where('completed', true)->
+            sortBy('due_date')->all();
+
+        $active = "team";
+
+        return view('tasks.membercompletedtasks')->with([
+            'member' => $member,
+            'memberTasks' => $memberTasks,
+            'active' => $active
         ]);
     }
 
@@ -46,8 +142,11 @@ class TaskController extends Controller
 
         $membersForCheckboxes = Member::getMembersForCheckboxes();
 
+        $active = "add";
+
         return view('tasks.new')->with([
-            'membersForCheckboxes' => $membersForCheckboxes
+            'membersForCheckboxes' => $membersForCheckboxes,
+            'active' => $active
         ]);
     }
 
@@ -80,6 +179,7 @@ class TaskController extends Controller
         $task->save();
 
         Session::flash('message', 'The task "'.$task->task.'" has been added.');
+        Session::flash('new', $task->task);
 
         return redirect('/');
     }
@@ -140,6 +240,7 @@ class TaskController extends Controller
         $task->save();
 
         Session::flash('message', 'The task "'.$task->task.'" has been updated.');
+        Session::flash('updated', $task->task);
 
         return redirect('/');
     }

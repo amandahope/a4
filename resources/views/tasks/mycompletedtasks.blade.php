@@ -3,8 +3,8 @@
 @section('content')
 
     <div class="page-header">
-        <h2>Completed Tasks
-            <small><a href="/">(Show Current)</a></small>
+        <h2>My Completed Tasks
+            <small><a href="/mytasks">(Show Current)</a></small>
         </h2>
     </div>
 
@@ -14,26 +14,18 @@
             <tr>
                 <th>Task</th>
                 <th>Date Completed</th>
-                <th>Completed By</th>
                 <th>Options</th>
             </tr>
         </thead>
 
         <tbody>
-            @foreach ($completedTasks as $task)
+            @foreach ($myTasks as $task)
                 <tr>
                     <td>{{ $task->task }}</td>
                     <td>
                         @if (!is_null($task->completed_date))
                             {{ Carbon\Carbon::parse($task->completed_date)->toFormattedDateString() }}
                         @endif
-                    </td>
-                    <td>
-                        <ul class="list-unstyled">
-                            @foreach ($task->members as $member)
-                                <li>{{ $member->first_name }} {{ $member->last_name }}</li>
-                            @endforeach
-                        </ul>
                     </td>
                     <td>
                         <form method="POST" action="/incomplete">

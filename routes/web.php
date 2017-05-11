@@ -12,7 +12,7 @@
 */
 
 Route::get('/', 'TaskController@index');
-Route::get('/completed', 'TaskController@completed');
+Route::get('/completed', 'TaskController@showCompleted');
 Route::get('/new', 'TaskController@new');
 Route::post('/new', 'TaskController@saveNew');
 Route::get('/edit/{id}', 'TaskController@edit');
@@ -20,4 +20,8 @@ Route::post('/edit', 'TaskController@saveEdits');
 Route::get('/delete/{id}', 'TaskController@delete');
 Route::post('/delete', 'TaskController@saveDelete');
 Route::post('/complete', 'TaskController@markComplete');
-Route::post('incomplete', 'TaskController@markIncomplete');
+Route::post('/incomplete', 'TaskController@markIncomplete');
+Route::get('/mytasks', 'TaskController@showMyTasks');
+Route::get('/mytasks/completed', 'TaskController@showMyCompleted');
+Route::get('/{memberid}', 'TaskController@showMemberTasks');
+Route::get('/{memberid}/completed', 'TaskController@showMemberCompleted');

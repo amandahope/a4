@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h3>Delete Task</h3>
+    <h2>Delete Task</h2>
 
     <table class="table table-hover">
 
@@ -38,7 +38,7 @@
 
         <input type="hidden" name="id" value="{{ $task->id }}">
 
-        <input type="submit" value="Delete Task">
+        <button class="btn btn-default" type="submit">Delete Task</button>
 
     </form>
 
