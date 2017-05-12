@@ -169,7 +169,7 @@ class TaskController extends Controller
             $task->due_date = null;
         } else {
             $task->due_date = Carbon\Carbon::parse($request->due_date)->
-                toDateString();
+                addHours(23)->addMinutes(59)->addSeconds(59)->toDateTimeString();
         }
 
         $task->completed = false;
