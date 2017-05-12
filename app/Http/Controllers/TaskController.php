@@ -168,7 +168,8 @@ class TaskController extends Controller
         if(is_null($request->due_date)) {
             $task->due_date = null;
         } else {
-            $task->due_date = Carbon\Carbon::parse($request->due_date)->toDateString();
+            $task->due_date = Carbon\Carbon::parse($request->due_date)->
+                toDateString();
         }
 
         $task->completed = false;
@@ -231,7 +232,8 @@ class TaskController extends Controller
         if(is_null($request->due_date)) {
             $task->due_date = null;
         } else {
-            $task->due_date = Carbon\Carbon::parse($request->due_date)->toDateString();
+            $task->due_date = Carbon\Carbon::parse($request->due_date)->
+                toDateString();
         }
 
         $members = ($request->members) ?: [];
@@ -239,7 +241,8 @@ class TaskController extends Controller
 
         $task->save();
 
-        Session::flash('message', 'The task "'.$task->task.'" has been updated.');
+        Session::flash('message',
+            'The task "'.$task->task.'" has been updated.');
         Session::flash('updated', $task->task);
 
         return redirect('/');
@@ -278,7 +281,8 @@ class TaskController extends Controller
 
         $task->delete();
 
-        Session::flash('message', 'The task "'.$task->task.'" has been deleted.');
+        Session::flash('message',
+            'The task "'.$task->task.'" has been deleted.');
 
         return redirect('/');
     }
@@ -295,7 +299,8 @@ class TaskController extends Controller
         $task->completed_date = Carbon\Carbon::now()->toDateString();
         $task->save();
 
-        Session::flash('message', 'The task "'.$task->task.'" has been marked complete.');
+        Session::flash('message',
+            'The task "'.$task->task.'" has been marked complete.');
 
         return redirect('/');
     }
@@ -312,7 +317,8 @@ class TaskController extends Controller
         $task->completed_date = null;
         $task->save();
 
-        Session::flash('message', 'The task "'.$task->task.'" has been marked incomplete.');
+        Session::flash('message',
+            'The task "'.$task->task.'" has been marked incomplete.');
 
         return redirect('/');
     }

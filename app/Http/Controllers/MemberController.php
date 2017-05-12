@@ -59,7 +59,8 @@ class MemberController extends Controller
 
         $member->save();
 
-        Session::flash('message', $member->first_name.' '.$member->last_name.' has been added to your team.');
+        Session::flash('message', $member->first_name.' '.$member->last_name.
+            ' has been added to your team.');
 
         return redirect('/team');
     }
@@ -105,7 +106,8 @@ class MemberController extends Controller
 
         $member->save();
 
-        Session::flash('message', $member->first_name.' '.$member->last_name.' has been updated.');
+        Session::flash('message', $member->first_name.' '.$member->last_name.
+            ' has been updated.');
 
         return redirect('/team');
     }
@@ -145,7 +147,8 @@ class MemberController extends Controller
 
         $member->delete();
 
-        Session::flash('message', $member->first_name.' '.$member->last_name.' has been deleted from your team.');
+        Session::flash('message', $member->first_name.' '.$member->last_name.
+            ' has been deleted from your team.');
 
         return redirect('/team');
     }
