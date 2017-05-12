@@ -20,17 +20,26 @@
         </thead>
 
         <tbody>
-            @foreach ($teamMembers as $member)
+
+            @if (count($teamMembers) == 0)
                 <tr>
-                    <td>{{ $member->last_name }}</td>
-                    <td>{{ $member->first_name }}</td>
-                    <td><a href="/{{ $member->id }}">{{ $member->tasks->where('completed', false)->count() }}</a></td>
-                    <td>
-                        <a class="btn btn-default" href="team/edit/{{ $member->id }}">Edit</a>
-                        <a class="btn btn-default" href="team/delete/{{ $member->id }}">Delete</a>
+                    <td colspan="4" class="text-center">
+                        <em>No team members. Would you like to <a href="/team/new">add one</a>?</em>
                     </td>
                 </tr>
-            @endforeach
+            @else
+                @foreach ($teamMembers as $member)
+                    <tr>
+                        <td>{{ $member->last_name }}</td>
+                        <td>{{ $member->first_name }}</td>
+                        <td><a href="/{{ $member->id }}">{{ $member->tasks->where('completed', false)->count() }}</a></td>
+                        <td>
+                            <a class="btn btn-default" href="team/edit/{{ $member->id }}">Edit</a>
+                            <a class="btn btn-default" href="team/delete/{{ $member->id }}">Delete</a>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
 
         </tbody>
 

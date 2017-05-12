@@ -19,25 +19,31 @@
         </thead>
 
         <tbody>
-            @foreach ($myTasks as $task)
+            @if (count($myTasks) == 0)
                 <tr>
-                    <td>{{ $task->task }}</td>
-                    <td>
-                        @if (!is_null($task->completed_date))
-                            {{ Carbon\Carbon::parse($task->completed_date)->toFormattedDateString() }}
-                        @endif
-                    </td>
-                    <td>
-                        <form method="POST" action="/incomplete">
-                            {{ csrf_field() }}
-                            <input type="hidden" name="id" value="{{ $task->id }}">
-                            <button class="btn btn-default" type="submit">Mark Incomplete</button>
-                            <a class="btn btn-default" href="/edit/{{ $task->id }}">Edit</a>
-                            <a class="btn btn-default" href="/delete/{{ $task->id }}">Delete</a>
-                        </form>
-                    </td>
+                    <td colspan="4" class="text-center"><em>No completed tasks.</em></td>
                 </tr>
-            @endforeach
+            @else
+                @foreach ($myTasks as $task)
+                    <tr>
+                        <td>{{ $task->task }}</td>
+                        <td>
+                            @if (!is_null($task->completed_date))
+                                {{ Carbon\Carbon::parse($task->completed_date)->toFormattedDateString() }}
+                            @endif
+                        </td>
+                        <td>
+                            <form method="POST" action="/incomplete">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="id" value="{{ $task->id }}">
+                                <button class="btn btn-default" type="submit">Mark Incomplete</button>
+                                <a class="btn btn-default" href="/edit/{{ $task->id }}">Edit</a>
+                                <a class="btn btn-default" href="/delete/{{ $task->id }}">Delete</a>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            @endif
         </tbody>
 
     </table>

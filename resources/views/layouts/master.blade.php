@@ -35,9 +35,13 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu">
-                        @foreach ($membersForCheckboxes as $id => $name)
-                            <li><a href="/{{ $id }}">{{ $name }}</a></li>
-                        @endforeach
+                        @if (count($membersForCheckboxes) == 0)
+                            <li class="disabled"><a href="#"><em>No team members</em></a></li>
+                        @else
+                            @foreach ($membersForCheckboxes as $id => $name)
+                                <li><a href="/{{ $id }}">{{ $name }}</a></li>
+                            @endforeach
+                        @endif
                     </ul>
                 </li>
                 <li role="presentation" @if ($active == "manage") class="active" @endif><a href="/team">Manage Team</a></li>

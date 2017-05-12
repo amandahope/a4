@@ -23,6 +23,14 @@ class TasksTableSeeder extends Seeder
         Task::insert([
             'created_at' => Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
+            'task' => 'Build task manager in Laravel',
+            'due_date' => '2017-05-11',
+            'completed' => false,
+        ]);
+
+        Task::insert([
+            'created_at' => Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => Carbon\Carbon::now()->toDateTimeString(),
             'task' => 'Optimize synergies',
             'due_date' => '2017-06-01',
             'completed' => false,
