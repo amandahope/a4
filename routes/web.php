@@ -11,6 +11,14 @@
 |
 */
 
+Route::get('/team', 'MemberController@showTeam');
+Route::get('/team/new', 'MemberController@new');
+Route::post('/team/new', 'MemberController@saveNew');
+Route::get('/team/edit/{id}', 'MemberController@edit');
+Route::post('/team/edit', 'MemberController@saveEdits');
+Route::get('/team/delete/{id}', 'MemberController@delete');
+Route::post('team/delete', 'MemberController@saveDelete');
+
 Route::get('/', 'TaskController@index');
 Route::get('/completed', 'TaskController@showCompleted');
 Route::get('/new', 'TaskController@new');

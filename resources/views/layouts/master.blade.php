@@ -40,7 +40,7 @@
                         @endforeach
                     </ul>
                 </li>
-                <li role="presentation"><a>Manage Team</a></li>
+                <li role="presentation" @if ($active == "manage") class="active" @endif><a href="/team">Manage Team</a></li>
             </ul>
         </nav>
 
