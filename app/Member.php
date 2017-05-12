@@ -19,10 +19,11 @@ class Member extends Model
         $membersForCheckboxes = [];
 
         foreach ($members as $member) {
-            $count = $member->tasks->where('completed', false)->count();
-            $membersForCheckboxes[$member['id']] = $member->first_name.' '.$member->last_name.' ('.$count.')';
+            $membersForCheckboxes[$member['id']] = $member->first_name.' '.$member->last_name;
         }
 
         return $membersForCheckboxes;
     }
+
+
 }

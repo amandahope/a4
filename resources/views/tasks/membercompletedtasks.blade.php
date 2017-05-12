@@ -21,7 +21,7 @@
         <tbody>
             @if (count($memberTasks) == 0)
                 <tr>
-                    <td colspan="4" class="text-center"><em>No completed tasks.</em></td>
+                    <td colspan="3" class="text-center"><em>No completed tasks.</em></td>
                 </tr>
             @else
                 @foreach ($memberTasks as $task)
