@@ -26,7 +26,7 @@
                 @foreach($membersForCheckboxes as $id => $name)
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" name="members[]" id="members" value="{{ $id }}" {{ (in_array($name, $membersForThisTask)) ? 'CHECKED' : '' }}>
+                            <input type="checkbox" name="members[]" id="members{{ $id }}" value="{{ $id }}" {{ (in_array($name, $membersForThisTask)) ? 'CHECKED' : '' }}>
                             {{ $name }}
                         </label>
                     </div>
